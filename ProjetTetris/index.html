@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Tetris</title>
+        <link rel="stylesheet" href="style.css">
+        <script defer src="script.js"></script>
+    </head>
+    <body>
+        <div id="sound">
+            <audio id="mainTheme" controls loop>
+                <source src="./mainTheme.mp3" type="audio/mpeg">
+            </audio>
+            <audio id="gameOver">
+                <source src="./gameOver.mp3" type="audio/mpeg">
+            </audio>
+        </div>
+
+        <div id="game">
+            <h1> Score : <span id="score">0</span> </h1>
+            <canvas id="tetris" width="300" height="600"></canvas>    
+        </div>
+
+    </body>
+</html>
