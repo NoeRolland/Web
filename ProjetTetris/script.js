@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => { //Cette fonction s'exécut
     displayMessage("START GAME!");
 
 
-    window.addEventListener('keydown', (e) => {
+    window.addEventListener('keydown', (e) => { //interpretation des saisie utilisateur pour lancer le jeu
         console.log(e);
         if ((e.code === 'Space' || e.key === ' ') && !isGameRunning) {
             isGameRunning = true;
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => { //Cette fonction s'exécut
         };
     });
 
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener('keydown', (e) => { // Interpretation des saisie utilisateur pour les mouvements
         if (isGameRunning) {
             if (e.code === 'ArrowDown') {
                 moveDown();
@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => { //Cette fonction s'exécut
     function newPiece() {
         const pieces = Object.keys(shapes);
         console.log(pieces);
-        const piece = pieces[Math.floor(Math.random() * pieces.length)]; //del 1 al 7
+        const piece = pieces[Math.floor(Math.random() * pieces.length)]; //fonction qui tire aleatoirement une chiffre entre 0 et 6
         currentShape = {
             shape: shapes[piece],
             type: piece, 
@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => { //Cette fonction s'exécut
 
 
 
-    function draw() { //function pour dessiner le plateau, les formes et les carrées dedans les formes des pièces.
+    function draw() { //function pour dessiner le plateau et les formes.
         if (isGameRunning) {
             drawBoard();
             drawShape(currentShape.shape, 
@@ -184,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => { //Cette fonction s'exécut
 
 
 
-    function drawSquare(x, y, color) {
+    function drawSquare(x, y, color) { //dessine les carrés dedans la forme
         ctx.fillStyle = color;
         ctx.fillRect(x * grid, y * grid, grid, grid);
         ctx.strokeStyle = 'black';
@@ -193,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => { //Cette fonction s'exécut
 
 
 
-    function gameLoop() {
+    function gameLoop() { //fonction qui fait descendre la pièce et augmente le score. Elle est appellée toute les 500 ms
         if (isGameRunning) {
             moveDown();
             score++;
@@ -213,7 +213,7 @@ document.addEventListener('DOMContentLoaded', () => { //Cette fonction s'exécut
 
 
 
-    function moveDown() { //interaction avec l'utilisateur
+    function moveDown() { // fonction que fait descendre la piece
         if (canMove(0, 1)) {
             currentShape.y++;
             draw();
@@ -230,21 +230,24 @@ document.addEventListener('DOMContentLoaded', () => { //Cette fonction s'exécut
         }
     }
 
-    function moveLeft() {
+    function moveLeft() { //fonction qui deplace la piece sur la gauche
         if (canMove(-1, 0)) {
             currentShape.x--;
             draw();
         }
     }
 
-    function moveRight() {
+    function moveRight() { //fonction qui deplace la piece sur la droite
         if (canMove(1, 0)) {
             currentShape.x++;
             draw();
         }
     }
 
-    function rotate() {
+
+// fonction qu'initialice une piece tourner, copie de la piece actuelle, avec la fonction rotateShape
+// si la piece tourné peut etre placé, la forme actuelle devient la forme tourné
+    function rotate() { 
         const rotatedShape = rotateShape(currentShape.shape);
         if (canMove(0, 0, rotatedShape)) {
             currentShape.shape = rotatedShape;
@@ -252,7 +255,7 @@ document.addEventListener('DOMContentLoaded', () => { //Cette fonction s'exécut
         }
     }
 
-    function rotateShape(shape) {
+    function rotateShape(shape) { //fonction qui transpose la matrice bidimensionnelle et en inversant les lignes. 
         const N = shape.length;
         const newShape = Array.from({ length: N }, () => Array(N).fill(0));
         shape.forEach((row, i) => {
@@ -263,6 +266,9 @@ document.addEventListener('DOMContentLoaded', () => { //Cette fonction s'exécut
         return newShape;
     }
 
+
+// Fonction qui verifie si la piece peut bouger
+// dx et dy sont la position a regarder, dx droite ou gauche, dy en dessous
     function canMove(dx, dy, newShape = currentShape.shape) {
         for (let i = 0; i < newShape.length; i++) {
             for (let j = 0; j < newShape[i].length; j++) {
