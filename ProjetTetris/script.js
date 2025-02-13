@@ -1,4 +1,4 @@
-const canvas = document.getElementById('tetris');
+const canvas = document.getElementById('tetris'); //permet recuper le doc
 let isGameRunning = false;
 let timerId;
 let score = 0;
@@ -65,13 +65,13 @@ const shapes = {
     Z : shape_Z
 };
 
-const grid = 30;
-const ROWS = canvas.height / grid;
-const COLS = canvas.width / grid;
+const grid = 30; //taille de chaque case en pixels 
+const ROWS = canvas.height / grid; //lignes
+const COLS = canvas.width / grid; //colonnes
 const board = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
 
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => { //Cette fonction s'exécute lorsque le document HTML est entièrement chargé
     const ctx = canvas.getContext('2d');
     const mainThemeSound = document.getElementById("mainTheme");
     const gameOverSound = document.getElementById("gameOver");
@@ -130,13 +130,13 @@ document.addEventListener('DOMContentLoaded', () => {
         newPiece();
         draw();
     }
-
+//les tros functions permment de creer un nouveau jeu, piece et plateau
 
 
     function newPiece() {
         const pieces = Object.keys(shapes);
         console.log(pieces);
-        const piece = pieces[Math.floor(Math.random() * pieces.length)];
+        const piece = pieces[Math.floor(Math.random() * pieces.length)]; //del 1 al 7
         currentShape = {
             shape: shapes[piece],
             type: piece, 
@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    function draw() {
+    function draw() { //function pour dessiner le plateau, les formes et les carrées dedans les formes des pièces.
         if (isGameRunning) {
             drawBoard();
             drawShape(currentShape.shape, 
@@ -213,7 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    function moveDown() {
+    function moveDown() { //interaction avec l'utilisateur
         if (canMove(0, 1)) {
             currentShape.y++;
             draw();
@@ -308,5 +308,3 @@ document.addEventListener('DOMContentLoaded', () => {
         draw();
     }
 });
-
-
